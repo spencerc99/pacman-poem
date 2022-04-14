@@ -3,6 +3,8 @@
   <style>
     body {
       font-size: 36px;
+      background: black;
+      color: white;
     }
 
     #grid {
@@ -10,13 +12,25 @@
       grid-template-rows: repeat(4, 1fr);
       grid-template-columns: repeat(4, 1fr);
       grid-gap: 80px;
+      text-align: center;
+      margin: 8px;
+      padding: 20px;
+      border: 1px white solid;
     }
 
     #pacman {
-      font-size: 10px;
-      margin: 0;
+      font-size: 50px;
       color: deeppink;
       width: fit-content;
+      margin: auto;
+    }
+
+    pre {
+      margin: 0;
+    }
+    h1 {
+      font-size: 30px;
+      color: lightgreen;
     }
 
     #done {
@@ -32,9 +46,20 @@
       padding: 20px;
     }
   </style>
+  <title></title>
+  <h1>
+    <pre>
+────────────────╔═══╗
+────────────────║╔═╗║
+╔══╦══╦╗╔╦══╦═╗─║╚═╝║╔═╗╔╦═╗╔══╗
+║══╣║═╣╚╝║║═╣╔╗╗║╔═╗║║╔╗╬╣╔╗╣║═╣
+╠══║║═╬╗╔╣║═╣║║║║╚═╝║║║║║║║║║║═╣
+╚══╩══╝╚╝╚══╩╝╚╝╚═══╝╚╝╚╩╩╝╚╩══╝
+</pre
+    >
+  </h1>
   <div id="banner">All words eaten</div>
   <div id="grid"></div>
-  <hr />
   <div id="poem"></div>
   <div id="done">
     <button
@@ -52,16 +77,32 @@
     const pacman = document.createElement("div");
     let lastPacmanId = `${position[0]}${position[1]}`;
     let finished = false;
-    //     pacman.innerHTML = `<pre style="margin:0; color: deeppink;">
-    // 
+    //     pacman.innerHTML = `
+    // <pre id="pacman">
+    // ᗤ
     // </pre>`;
     pacman.innerHTML = `
-<pre id="pacman">,==.
-\ o ',
- \\    \\
- /    ;
-/   .'
-"=="</pre>`;
+    <pre id="pacman">❽</pre>`;
+    // pacman.innerHTML = `
+    // <pre id="pacman">
+    //     ⣀⣤⣴⣶⣶⣶⣦⣤⣀
+    //   ⣠⣾⣿⣿⣿⣿⣿⣿⢿⣿⣿⣷⣄
+    // ⢀⣾⣿⣿⣿⣿⣿⣿⣿ ⢀⣽⣿⣿⡿⠃
+    // ⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁
+    // ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⠁
+    // ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣀
+    // ⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣄
+    //  ⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃
+    //   ⠈⠙⠿⣿⣿⣿⣿⣿⣿⣿⠿⠋
+    //       ⠉⠉⠉⠉⠁
+    // </pre>`;
+    //     pacman.innerHTML = `
+    // <pre id="pacman">,==.
+    // \ o ',
+    //  \\    \\
+    //  /    ;
+    // /   .'
+    // "=="</pre>`;
     //     pacman.innerHTML = `<pre style="font-size:10px; margin:0; color: deeppink;">
     //   .--.
     //  / _.-'
@@ -97,6 +138,7 @@
       noun: ["word", "eight"],
       verb: ["eating", "running"],
       adjective: ["big", "small"],
+      punctuation: ["-", ",", "."],
     };
     const positionsToDone = {};
     const randomPart = () => parts[Math.floor(Math.random() * parts.length)];
