@@ -25,10 +25,11 @@
 
     #banner {
       display: none;
-    }
-
-    .show {
-      display: inherit;
+      background-color: deeppink;
+      text-align: center;
+      font-size: 64px;
+      color: white;
+      padding: 20px;
     }
   </style>
   <div id="banner">All words eaten</div>
@@ -36,29 +37,21 @@
   <hr />
   <div id="poem"></div>
   <div id="done">
-    <button onclick="showBanner()">Save Poem</button>
+    <button
+      onclick="navigator.clipboard.writeText(document.getElementById('poem').innerText)"
+    >
+      Save Poem
+    </button>
     <button onclick="location.reload()">Restart</button>
   </div>
   <script>
-    function showBanner() {
-      var x = document.getElementById("banner");
-
-      // Add the "show" class to DIV
-      x.className = "show";
-      x.innerHTML = text;
-
-      // After 3 seconds, remove the show class from DIV
-      setTimeout(function () {
-        x.className = x.className.replace("show", "");
-      }, 2000);
-    }
-
     let position = [
       Math.floor(Math.random() * 3),
       Math.floor(Math.random() * 3),
     ];
     const pacman = document.createElement("div");
     let lastPacmanId = `${position[0]}${position[1]}`;
+    let finished = false;
     //     pacman.innerHTML = `<pre style="margin:0; color: deeppink;">
     // 
     // </pre>`;
@@ -174,8 +167,10 @@
       document.getElementById("poem").innerHTML = poem
         .map((word) => `<span>${word}</span>`)
         .join(" ");
-      if (Object.values(positionsToDone).every((done) => done)) {
+      if (!finished && Object.values(positionsToDone).every((done) => done)) {
+        document.getElementById("banner").style.display = "inherit";
         document.getElementById("done").style.display = "inherit";
+        finished = true;
       }
     });
   </script>
