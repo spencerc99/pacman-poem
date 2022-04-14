@@ -5,6 +5,9 @@
       font-size: 36px;
       background: black;
       color: white;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     #grid {
@@ -20,9 +23,9 @@
 
     #pacman {
       font-size: 50px;
-      color: deeppink;
       width: fit-content;
       margin: auto;
+      color: deeppink;
     }
 
     pre {
@@ -70,84 +73,49 @@
     <button onclick="location.reload()">Restart</button>
   </div>
   <script>
-    let position = [
-      Math.floor(Math.random() * 3),
-      Math.floor(Math.random() * 3),
-    ];
+    let position = [1, 2];
     const pacman = document.createElement("div");
     let lastPacmanId = `${position[0]}${position[1]}`;
     let finished = false;
-    //     pacman.innerHTML = `
-    // <pre id="pacman">
-    // ᗤ
-    // </pre>`;
-    pacman.innerHTML = `
-    <pre id="pacman">❽</pre>`;
-    // pacman.innerHTML = `
-    // <pre id="pacman">
-    //     ⣀⣤⣴⣶⣶⣶⣦⣤⣀
-    //   ⣠⣾⣿⣿⣿⣿⣿⣿⢿⣿⣿⣷⣄
-    // ⢀⣾⣿⣿⣿⣿⣿⣿⣿ ⢀⣽⣿⣿⡿⠃
-    // ⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁
-    // ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⠁
-    // ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣀
-    // ⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣄
-    //  ⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃
-    //   ⠈⠙⠿⣿⣿⣿⣿⣿⣿⣿⠿⠋
-    //       ⠉⠉⠉⠉⠁
-    // </pre>`;
-    //     pacman.innerHTML = `
-    // <pre id="pacman">,==.
-    // \ o ',
-    //  \\    \\
-    //  /    ;
-    // /   .'
-    // "=="</pre>`;
-    //     pacman.innerHTML = `<pre style="font-size:10px; margin:0; color: deeppink;">
-    //   .--.
-    //  / _.-'
-    //  \\  '-.
-    //   '--'
-    // </pre>`;
-    //     pacman.innerHTML = `<pre style="font-size:8px; margin:0; color: deeppink;">
-    //          ████████
-    //       ██████████████
-    //    ████████  ████
-    //    ███████████
-    //   ████████
-    //   ████████
-    //    ███████████
-    //    ██████████████
-    //       ██████████████
-    //          ████████
-    // </pre>`;
-    //     pacman.innerHTML = `<pre style="font-size:8px; margin:0;">
-    //   ▁▁▁▁▁▁▁▁
-    //  /88888888┃
-    // ┃8888888/▔
-    // ┃8888┃▔▔
-    // ┃8888┃▁▁
-    // ┃8888888\\▁
-    //  \\88888888┃
-    //   ▔▔▔▔▔▔▔▔▔
-    // </pre>`;
+    pacman.innerHTML = `<pre id="pacman">❽</pre>`;
     const poem = [];
     const wordsGrid = [];
     const parts = ["noun", "verb", "adjective"];
     const words = {
-      noun: ["word", "eight"],
-      verb: ["eating", "running"],
-      adjective: ["big", "small"],
-      punctuation: ["-", ",", "."],
+      article: ["A", "The", "Some", "All", "No", "Few"],
+      n: [
+        "Stones",
+        "Keys",
+        "Move",
+        "Cadence",
+        "Note",
+        "Pieces",
+        "Piss",
+        "Shard",
+      ],
+      verb: ["Ate", "Licked", "Pray", "Sighs", "Moved", "was", "sunk"],
+      adj: ["Coiled", "Tensed", "Tender", "Retrograde", "Citrine"],
+      punctuation: [",", ".", "|", "[", "]", "(", ")", "–"],
     };
+    const choices = ["", "", "/", "/", "/"];
+    function removeAt(arr, index) {
+      let a = arr[index];
+      arr.splice(index, 1);
+      return a;
+    }
+    const pushRandom = (c, n) => {
+      for (let i = 0; i < n; i++) {
+        choices.push(removeAt(c, Math.floor(Math.random() * c.length)));
+      }
+    };
+    pushRandom(words["article"], 2);
+    pushRandom(words["adj"], 2);
+    pushRandom(words["n"], 2);
+    pushRandom(words["verb"], 2);
+    pushRandom(words["punctuation"], 2);
     const positionsToDone = {};
-    const randomPart = () => parts[Math.floor(Math.random() * parts.length)];
-    const randomWord = () => {
-      const randPart = randomPart();
-      return words[randPart][
-        Math.floor(Math.random() * words[randPart].length)
-      ];
-    };
+    const randomWord = () =>
+      removeAt(choices, Math.floor(Math.random() * choices.length));
 
     const grid = document.getElementById("grid");
     for (let i = 3; i >= 0; i--) {
