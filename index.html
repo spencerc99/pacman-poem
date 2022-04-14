@@ -4,21 +4,18 @@
       font-size: 36px;
       background: black;
       color: white;
-      max-width: 1000px;
-      padding: 40px;
     }
 
-    #grid {
+    #g {
       display: grid;
-      grid-template-rows: repeat(4, 1fr);
-      grid-template-columns: repeat(4, 1fr);
+      grid-template: repeat(4, 1fr) / repeat(4, 1fr);
       grid-gap: 80px;
       text-align: center;
       padding: 20px;
       border: 1px white solid;
     }
 
-    #pacman {
+    #p {
       font-size: 50px;
       color: deeppink;
     }
@@ -27,23 +24,25 @@
       color: lightgreen;
     }
   </style>
-  <h6>
-    <pre>
+  <div style="max-width: 1000px; padding: 40px">
+    <h6>
+      <pre>
 ────────────────╔═══╗
 ────────────────║╔═╗║
 ╔══╦══╦╗╔╦══╦═╗─║╚═╝║╔═╗╔╦═╗╔══╗
 ║══╣║═╣╚╝║║═╣╔╗╗║╔═╗║║╔╗╬╣╔╗╣║═╣
 ╠══║║═╬╗╔╣║═╣║║║║╚═╝║║║║║║║║║║═╣
 ╚══╩══╝╚╝╚══╩╝╚╝╚═══╝╚╝╚╩╩╝╚╩══╝</pre
-    >
-  </h6>
-  <div id="grid"></div>
-  <div id="poem"></div>
+      >
+    </h6>
+    <div id="g"></div>
+    <div id="t"></div>
+  </div>
   <script>
     let position = [1, 2];
     let pacman = document.createElement("div");
     let lastPacmanId = `${position[0]}${position[1]}`;
-    let pacHtml = `<span id="pacman">❽</span>`;
+    let pacHtml = `<span id="p">❽</span>`;
     pacman.innerHTML = pacHtml;
     let poem = [];
     let words = {
@@ -69,9 +68,6 @@
       arr.splice(idx, 1);
       return a;
     };
-    let rand = (arr) => {
-      return;
-    };
     let pushRandom = (c, n) => {
       for (let i = 0; i < n; i++) {
         choices.push(removeAtRand(c));
@@ -85,7 +81,7 @@
     let total = 0;
     let randomWord = () => removeAtRand(choices);
 
-    let grid = document.getElementById("grid");
+    let grid = document.getElementById("g");
     for (let i = 3; i >= 0; i--) {
       for (let j = 3; j >= 0; j--) {
         let node = document.createElement("span");
@@ -137,7 +133,7 @@
       if (poemTxt.endsWith("<br/>")) {
         poemTxt += "&nbsp;";
       }
-      document.getElementById("poem").innerHTML = poemTxt;
+      document.getElementById("t").innerHTML = poemTxt;
       total++;
       if (total == 13) {
         pacHtml += " full!";
