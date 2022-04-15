@@ -6,6 +6,12 @@
     property="og:image"
     content="https://spencerchang.me/pacman-poem/banner.png"
   />
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"
+    integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
 </head>
 <body>
   <style>
@@ -31,23 +37,37 @@
 
     h6 {
       color: lightgreen;
+      margin: 0;
+    }
+
+    #header {
+        display:flex;
     }
   </style>
   <div style="max-width: 1000px; padding: 40px">
-    <h6>
-      <pre>
+    <div id="header"">
+      <h6>
+        <pre>
 ────────────────╔═══╗
 ────────────────║╔═╗║
 ╔══╦══╦╗╔╦══╦═╗─║╚═╝║╔═╗╔╦═╗╔══╗
 ║══╣║═╣╚╝║║═╣╔╗╗║╔═╗║║╔╗╬╣╔╗╣║═╣
 ╠══║║═╬╗╔╣║═╣║║║║╚═╝║║║║║║║║║║═╣
 ╚══╩══╝╚╝╚══╩╝╚╝╚═══╝╚╝╚╩╩╝╚╩══╝</pre
-      >
+        >
     </h6>
+    <div style="text-align:right; align-items:center; display:flex;">
+        <p><em>use your arrow keys or swipe on mobile!</em></p>
+    </div>
+    </div>
     <div id="g"></div>
     <div id="t"></div>
+    <hr />
   </div>
   <script>
+    const hammer = new Hammer(document.getElementById("g"), {
+      recognizers: [[Hammer.Swipe, { direction: Hammer.DIRECTION_ALL }]],
+    });
     let position = [1, 2];
     let pacman = document.createElement("div");
     let lastPacmanId = `${position[0]}${position[1]}`;
@@ -106,29 +126,7 @@
       }
     }
 
-    document.addEventListener("keydown", (event) => {
-      switch (event.key) {
-        case "ArrowDown":
-          if (position[0] === 0) return;
-          position[0]--;
-          pacman.children[0].style.transform = "rotate(90deg)";
-          break;
-        case "ArrowUp":
-          if (position[0] === 3) return;
-          position[0]++;
-          pacman.children[0].style.transform = "rotate(90deg)";
-          break;
-        case "ArrowRight":
-          if (position[1] === 0) return;
-          position[1]--;
-          pacman.children[0].style.transform = "scaleX(-1)";
-          break;
-        case "ArrowLeft":
-          if (position[1] === 3) return;
-          position[1]++;
-          pacman.children[0].style.transform = "rotate(0deg)";
-          break;
-      }
+    const handleMove = () => {
       document.getElementById(lastPacmanId).innerHTML = "";
       let word = document.getElementById(`${position[0]}${position[1]}`);
       let txt = word.innerText;
@@ -147,6 +145,64 @@
       if (total == 13) {
         pacHtml += " full!";
       }
+    };
+
+    const handleLeft = () => {
+      if (position[1] === 3) return;
+      position[1]++;
+      pacman.children[0].style.transform = "rotate(0deg)";
+    };
+    const handleDown = () => {
+      if (position[0] === 0) return;
+      position[0]--;
+      pacman.children[0].style.transform = "rotate(90deg)";
+    };
+    const handleUp = () => {
+      if (position[0] === 3) return;
+      position[0]++;
+      pacman.children[0].style.transform = "rotate(90deg)";
+    };
+    const handleRight = () => {
+      if (position[1] === 0) return;
+      position[1]--;
+      pacman.children[0].style.transform = "scaleX(-1)";
+    };
+
+    document.addEventListener("keydown", (event) => {
+      switch (event.key) {
+        case "ArrowDown":
+          handleDown();
+          break;
+        case "ArrowUp":
+          handleDown();
+          break;
+        case "ArrowRight":
+          handleDown();
+          break;
+        case "ArrowLeft":
+          handleLeft();
+          break;
+      }
+
+      handleMove();
+    });
+
+    // handle mobile swipe
+    hammer.on("swipeleft", () => {
+      handleLeft();
+      handleMove();
+    });
+    hammer.on("swiperight", () => {
+      handleRight();
+      handleMove();
+    });
+    hammer.on("swipedown", () => {
+      handleDown();
+      handleMove();
+    });
+    hammer.on("swipeup", () => {
+      handleUp();
+      handleMove();
     });
   </script>
 </body>
