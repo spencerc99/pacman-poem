@@ -130,6 +130,7 @@ const handleFinishGame = () => {
 };
 
 const handleMove = () => {
+  console.log("handling move");
   document.getElementById(lastPacmanId)!.innerHTML = "";
   const currPos = `${position[0]}${position[1]}`;
   let word = document.getElementById(currPos)!;
@@ -155,45 +156,56 @@ function saveMove(direction: MoveType) {
   moves.push(direction);
 }
 
-const handleLeft = () => {
-  if (position[1] === 3) return;
+function handleLeft(): boolean {
+  if (position[1] === 3) return false;
   position[1]++;
   (pacman.children[0] as HTMLElement).style.transform = "rotate(0deg)";
   saveMove(MoveType.Left);
-};
-const handleDown = () => {
-  if (position[0] === 0) return;
+  return true;
+}
+function handleDown(): boolean {
+  if (position[0] === 0) return false;
   position[0]--;
   (pacman.children[0] as HTMLElement).style.transform = "rotate(90deg)";
   saveMove(MoveType.Down);
-};
-const handleUp = () => {
-  if (position[0] === 3) return;
+  return true;
+}
+function handleUp(): boolean {
+  if (position[0] === 3) return false;
   position[0]++;
   (pacman.children[0] as HTMLElement).style.transform = "rotate(90deg)";
   saveMove(MoveType.Up);
-};
-const handleRight = () => {
-  if (position[1] === 0) return;
+  return true;
+}
+function handleRight(): boolean {
+  if (position[1] === 0) return false;
   position[1]--;
   (pacman.children[0] as HTMLElement).style.transform = "scaleX(-1)";
   saveMove(MoveType.Right);
-};
+  return true;
+}
 
 document.addEventListener("keydown", (event) => {
+  let moved = false;
   switch (event.key) {
     case "ArrowDown":
-      handleDown();
+      moved = handleDown();
       break;
     case "ArrowUp":
-      handleUp();
+      moved = handleUp();
       break;
     case "ArrowRight":
-      handleRight();
+      moved = handleRight();
       break;
     case "ArrowLeft":
-      handleLeft();
+      moved = handleLeft();
       break;
+    default:
+      return;
+  }
+
+  if (!moved) {
+    return;
   }
 
   handleMove();
@@ -201,18 +213,22 @@ document.addEventListener("keydown", (event) => {
 
 // handle mobile swipe
 hammer.on("swipeleft", () => {
-  handleLeft();
-  handleMove();
+  if (handleLeft()) {
+    handleMove();
+  }
 });
 hammer.on("swiperight", () => {
-  handleRight();
-  handleMove();
+  if (handleRight()) {
+    handleMove();
+  }
 });
 hammer.on("swipedown", () => {
-  handleDown();
-  handleMove();
+  if (handleDown()) {
+    handleMove();
+  }
 });
 hammer.on("swipeup", () => {
-  handleUp();
-  handleMove();
+  if (handleUp()) {
+    handleMove();
+  }
 });
