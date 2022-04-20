@@ -25,5 +25,3 @@ jobs:
 
       - name: Deploy
         run: ./deploy.sh
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
