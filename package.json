@@ -1,0 +1,18 @@
+{
+  "name": "pacman-poem",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/hammerjs": "^2.0.41",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.5"
+  },
+  "dependencies": {
+    "hammerjs": "^2.0.8"
+  }
+}
