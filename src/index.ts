@@ -1,10 +1,6 @@
 import "./style.css";
 import "hammerjs";
 
-const grid = document.getElementById("g")!;
-const hammer = new Hammer(grid, {
-  recognizers: [[Hammer.Swipe, { direction: Hammer.DIRECTION_ALL }]],
-});
 const PoemHistoryKey = "PacmanPoemHistory";
 
 enum MoveType {
@@ -27,6 +23,11 @@ interface PoemHistory {
   moves: MoveType[];
 }
 
+const grid = document.getElementById("g")!;
+const hammer = new Hammer(grid, {
+  recognizers: [[Hammer.Swipe, { direction: Hammer.DIRECTION_ALL }]],
+});
+
 const currHistory: PoemHistory[] = JSON.parse(
   localStorage.getItem(PoemHistoryKey) || "[]"
 ) as PoemHistory[];
@@ -40,14 +41,14 @@ function renderPoemHistory({ poem, date, moves }: PoemHistory) {
 
   // TODO: add delete button
   newPoemDiv.innerHTML = `
-    <b class="date">${date.toLocaleString()}</b>
-    <span class="poemText">${poemTxt}</span>
-    <details>
-      <summary>
-        moves
-      </summary>
-      <span class="moves">${movesTxt}</span>
-    </details>`;
+      <b class="date">${date.toLocaleString()}</b>
+      <span class="poemText">${poemTxt}</span>
+      <details>
+        <summary>
+          moves
+        </summary>
+        <span class="moves">${movesTxt}</span>
+      </details>`;
   return newPoemDiv;
 }
 
