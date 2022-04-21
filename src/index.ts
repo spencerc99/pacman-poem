@@ -38,6 +38,7 @@ function renderPoemHistory({ poem, date, moves }: PoemHistory) {
   const poemTxt = poem.join(" ");
   const movesTxt = moves.map((m) => MoveToDisplay[m]).join(" ");
 
+  // TODO: add delete button
   newPoemDiv.innerHTML = `
     <b class="date">${date.toLocaleString()}</b>
     <span class="poemText">${poemTxt}</span>
