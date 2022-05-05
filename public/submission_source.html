@@ -1,0 +1,147 @@
+<body>
+  <style>
+    body {
+      font-size: 36px;
+      background: black;
+      color: white;
+    }
+
+    #h {
+      display: flex;
+      gap: 8px;
+    }
+
+    #g {
+      display: grid;
+      grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+      grid-gap: 80px;
+      text-align: center;
+      padding: 20px;
+      border: 1px white solid;
+    }
+
+    #p {
+      font-size: 50px;
+      color: deeppink;
+    }
+
+    h4 {
+      color: lightgreen;
+      margin: 0;
+    }
+  </style>
+  <div style="max-width: 800px; padding: 40px">
+    <div id="h">
+      <h4>
+        <pre>seven 8 nine</pre>
+      </h4>
+      <div style="margin-left: auto">
+        <p><em>use arrow keys to eat a poem</em></p>
+      </div>
+    </div>
+    <div id="g"></div>
+    <div id="t"></div>
+  </div>
+  <script>
+    let position = [1, 2];
+    let pacman = document.createElement("div");
+    let lastPacmanId = `${position[0]}${position[1]}`;
+    let pacHtml = `<span id="p">❽</span>`;
+    pacman.innerHTML = pacHtml;
+    let poem = [];
+    let words = {
+      article: ["a", "the", "some", "all", "no", "few"],
+      n: [
+        "stones",
+        "keys",
+        "move",
+        "cadence",
+        "note",
+        "pieces",
+        "piss",
+        "shard",
+      ],
+      verb: ["ate", "licked", "pray", "sighs", "sung", "was", "sunk"],
+      adj: ["coiled", "tensed", "tender", "retrograde", "citrine", "empty"],
+      punctuation: [",", ".", "|", "[", "]", "–"],
+    };
+    let choices = ["", "", "/", "/", "/"];
+    let removeAtRand = (arr) => {
+      let idx = Math.floor(Math.random() * arr.length);
+      let a = arr[idx];
+      arr.splice(idx, 1);
+      return a;
+    };
+    let pushRandom = (c, n) => {
+      for (let i = 0; i < n; i++) {
+        choices.push(removeAtRand(c));
+      }
+    };
+    pushRandom(words["article"], 2);
+    pushRandom(words["adj"], 2);
+    pushRandom(words["n"], 2);
+    pushRandom(words["verb"], 2);
+    pushRandom(words["punctuation"], 2);
+    let total = 0;
+    let randomWord = () => removeAtRand(choices);
+
+    let grid = document.getElementById("g");
+    for (let i = 3; i >= 0; i--) {
+      for (let j = 3; j >= 0; j--) {
+        let node = document.createElement("span");
+        node.id = `${i}${j}`;
+
+        if (position[0] === i && position[1] === j) {
+          node.innerHTML = pacHtml;
+        } else {
+          let text = document.createTextNode(randomWord());
+          node.appendChild(text);
+        }
+        grid.appendChild(node);
+      }
+    }
+
+    document.addEventListener("keydown", (event) => {
+      switch (event.key) {
+        case "ArrowDown":
+          if (position[0] === 0) return;
+          position[0]--;
+          pacman.children[0].style.transform = "rotate(90deg)";
+          break;
+        case "ArrowUp":
+          if (position[0] === 3) return;
+          position[0]++;
+          pacman.children[0].style.transform = "rotate(90deg)";
+          break;
+        case "ArrowRight":
+          if (position[1] === 0) return;
+          position[1]--;
+          pacman.children[0].style.transform = "scaleX(-1)";
+          break;
+        case "ArrowLeft":
+          if (position[1] === 3) return;
+          position[1]++;
+          pacman.children[0].style.transform = "rotate(0deg)";
+          break;
+      }
+      document.getElementById(lastPacmanId).innerHTML = "";
+      let word = document.getElementById(`${position[0]}${position[1]}`);
+      let txt = word.innerText;
+      word.innerHTML = pacHtml;
+      lastPacmanId = `${position[0]}${position[1]}`;
+      if (!txt) {
+        return;
+      }
+      poem.push(txt === "/" ? "<br/>" : txt);
+      let poemTxt = poem.join(" ");
+      if (poemTxt.endsWith("<br/>")) {
+        poemTxt += "&nbsp;";
+      }
+      document.getElementById("t").innerHTML = poemTxt;
+      total++;
+      if (total == 13) {
+        pacHtml += " full!";
+      }
+    });
+  </script>
+</body>
