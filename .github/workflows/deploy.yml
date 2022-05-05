@@ -20,21 +20,19 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # - name: Build
-      #   run: npm run build
-
-      # - name: Commit files
-      #   run: |
-      #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      #     git config --local user.name "github-actions[bot]"
-
-      # - name: Push changes
-      #   uses: ad-m/github-push-action@master
-
       - name: Deploy
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           ./deploy.sh
+
+# - name: Build
+#   run: npm run build
+
+# - name: Commit files
+#   run: |
+#     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#     git config --local user.name "github-actions[bot]"
+
+# - name: Push changes
+#   uses: ad-m/github-push-action@master
