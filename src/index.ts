@@ -1,6 +1,18 @@
 import "./style.css";
 import "hammerjs";
 
+/**
+ * Shuffles array in place. ES6 version
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a: any[]) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 const PoemHistoryKey = "PacmanPoemHistory";
 
 enum MoveType {
@@ -234,3 +246,44 @@ hammer.on("swipeup", () => {
     handleMove();
   }
 });
+
+const TitleStartOptions = shuffle(["❽", "8", "ate"]);
+const TitleEndOptions = shuffle(["bite", "bit", "byte"]);
+let titleStartIdx = TitleStartOptions.indexOf("❽");
+let titleEndIdx = TitleEndOptions.indexOf("bite");
+const TitleSwapIntervalsSeconds = [2, 5];
+const TitleTextAnimationDurationMs = 500;
+const TitleSwapIntervalMultiple =
+  TitleSwapIntervalsSeconds[1] - TitleSwapIntervalsSeconds[0];
+function generateRandomIntervalSeconds() {
+  return (
+    (Math.random() * TitleSwapIntervalMultiple + TitleSwapIntervalsSeconds[0]) *
+    1000
+  );
+}
+function animateChangeText(querySelector: string, getNextOption: () => string) {
+  const ele = document.querySelector(querySelector)!;
+  ele.classList.add("pre-animation");
+  setTimeout(function () {
+    ele.innerHTML = getNextOption();
+    ele.classList.remove("pre-animation");
+  }, TitleTextAnimationDurationMs);
+}
+setInterval(
+  () =>
+    animateChangeText("#titleOne", () => {
+      titleStartIdx = (titleStartIdx + 1) % TitleStartOptions.length;
+      const nextOption = TitleStartOptions[titleStartIdx];
+      return nextOption;
+    }),
+  generateRandomIntervalSeconds()
+);
+setInterval(
+  () =>
+    animateChangeText("#titleTwo", () => {
+      titleEndIdx = (titleEndIdx + 1) % TitleEndOptions.length;
+      const nextOption = TitleEndOptions[titleEndIdx];
+      return nextOption;
+    }),
+  generateRandomIntervalSeconds()
+);

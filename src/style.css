@@ -32,6 +32,7 @@ h6 {
 #header {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 pre {
@@ -47,4 +48,12 @@ pre {
 .poemHistory .date {
   float: right;
   font-size: 18px;
+}
+
+#titleText span {
+  transition: all 0.5s ease-in-out;
+}
+
+#titleText span.pre-animation {
+  opacity: 0;
 }
