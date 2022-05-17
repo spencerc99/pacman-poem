@@ -57,3 +57,31 @@ pre {
 #titleText span.pre-animation {
   opacity: 0;
 }
+
+p {
+  font-size: 0.5em;
+}
+
+/* taken from https://codepen.io/Brandon-Stoyles/pen/RajYmd */
+
+button {
+  background: #7c7c7c;
+  border-bottom: 6px inset rgba(0, 0, 0, 0.5);
+  border-left: 6px inset rgba(0, 0, 0, 0.5);
+  border-right: 6px inset rgba(255, 255, 255, 0.5);
+  border-top: 6px inset rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  float: right;
+
+  background: #005800;
+
+  &:focus,
+  &:hover {
+    background: #006800;
+  }
+}

@@ -1,4 +1,4 @@
-import "./style.css";
+import "./style.scss";
 import "hammerjs";
 
 /**
@@ -33,6 +33,7 @@ interface PoemHistory {
   poem: string[];
   date: Date;
   moves: MoveType[];
+  boardState: Record<string, string>;
 }
 
 const grid = document.getElementById("g")!;
@@ -44,23 +45,70 @@ const currHistory: PoemHistory[] = JSON.parse(
   localStorage.getItem(PoemHistoryKey) || "[]"
 ) as PoemHistory[];
 
-function renderPoemHistory({ poem, date, moves }: PoemHistory) {
+const SubmissionFormLink =
+  "https://coda.io/form/Pacman-Poem-Submission_dq4Q8zgM2Jy";
+function getPoemSubmissionLink({
+  poem,
+  date,
+  moves,
+  boardState,
+}: PoemHistory): string {
+  const link = SubmissionFormLink;
+  const queryParams = new URLSearchParams();
+  queryParams.append("poemSubmission", encodeURIComponent(poem.join(" ")));
+  queryParams.append("dateSubmission", encodeURIComponent(date.toISOString()));
+  queryParams.append("movesSubmission", encodeURIComponent(moves.join(" ")));
+  queryParams.append(
+    "boardStateSubmission",
+    encodeURIComponent(JSON.stringify(boardState))
+  );
+  return `${link}?${queryParams.toString()}`;
+}
+
+function onSubmitPoem(poem: PoemHistory) {
+  const subLink = getPoemSubmissionLink(poem);
+  window.open(subLink, "_blank");
+}
+
+function renderPoemHistory(poemData: PoemHistory) {
+  const { poem, date, moves, boardState } = poemData;
   const newPoemDiv = document.createElement("div");
   newPoemDiv.className = "poemHistory";
 
   const poemTxt = poem.join(" ");
   const movesTxt = moves.map((m) => MoveToDisplay[m]).join(" ");
+  const boardStateTxt = Object.values(boardState ?? []).join(" ");
 
-  // TODO: add delete button
-  newPoemDiv.innerHTML = `
-      <b class="date">${date.toLocaleString()}</b>
-      <span class="poemText">${poemTxt}</span>
-      <details>
-        <summary>
-          moves
-        </summary>
-        <span class="moves">${movesTxt}</span>
-      </details>`;
+  newPoemDiv.insertAdjacentHTML(
+    "afterbegin",
+    `<b class="date">${date.toLocaleString()}</b>
+    <span class="poemText">${poemTxt}</span>`
+  );
+
+  const buttonContainer = document.createElement("div");
+  const button = document.createElement("button");
+  button.onclick = () => onSubmitPoem(poemData);
+  button.innerText = "Submit";
+  button.className = "submitButton";
+  buttonContainer.appendChild(button);
+  newPoemDiv.appendChild(buttonContainer);
+
+  newPoemDiv.insertAdjacentHTML(
+    "beforeend",
+    `<details>
+  <summary>
+    moves
+  </summary>
+  <span class="moves">${movesTxt}</span>
+</details>
+<details>
+    <summary>
+      board
+    </summary>
+    <span class="boardState">${boardStateTxt}</span>
+</details>`
+  );
+
   return newPoemDiv;
 }
 
@@ -108,6 +156,7 @@ pushRandom(words["verb"], 2);
 pushRandom(words["punctuation"], 2);
 // fill up map with id to boolean of whether it is filled.
 const map: Record<string, boolean> = {};
+const boardState: Record<string, string> = {};
 const randomWord = () => removeAtRand(choices);
 
 for (let i = 3; i >= 0; i--) {
@@ -117,11 +166,13 @@ for (let i = 3; i >= 0; i--) {
 
     if (position[0] === i && position[1] === j) {
       node.innerHTML = pacHtml;
+      boardState[node.id] = "pacman";
     } else {
       const randWord = randomWord();
       let text = document.createTextNode(randWord);
       node.appendChild(text);
       map[node.id] = Boolean(randWord);
+      boardState[node.id] = randWord;
     }
     grid.appendChild(node);
   }
@@ -133,6 +184,7 @@ const handleFinishGame = () => {
       poem,
       date: new Date(),
       moves,
+      boardState,
     };
     currHistory.push(newPoem);
     document.getElementById("history")!.appendChild(renderPoemHistory(newPoem));
