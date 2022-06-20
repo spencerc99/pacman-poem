@@ -59,7 +59,7 @@ pre {
 }
 
 p {
-  font-size: 0.5em;
+  font-size: 18px;
 }
 
 /* taken from https://codepen.io/Brandon-Stoyles/pen/RajYmd */
@@ -88,4 +88,16 @@ button {
 
 a {
   color: #e08f1c;
+}
+
+.about {
+  margin-top: 16px;
+
+  summary {
+    font-size: 22px;
+  }
+
+  summary::marker {
+    font-size: 18px;
+  }
 }
