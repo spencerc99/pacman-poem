@@ -285,6 +285,7 @@ document.addEventListener("keydown", (event) => {
   }
 
   handleMove();
+  event.preventDefault();
 });
 
 // handle mobile swipe
