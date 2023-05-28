@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>❽-bite (Taper #8)</title>
+
+    <!-- ❽-bite,” Copyright (C) 2022 Spencer Chang and Kelsey Chen
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright 
+notice and this notice are preserved. This file is offered as-is,
+without any warranty.
+
+This is from Taper #8: 8-Bit Nostalgia, Spring 2022:
+
+https://taper.badquar.to/8/8-bite.html
+
+An 8-ball is reimagined as an 8-bit game reimagined as a poetry machine. Readers play the game using their arrow keys to move the 8-ball around to consume words. Rather than collecting points like in Pacman, readers eat words and punctuations to create their own poem, which automatically fills in the space below the grid. The grid is filled with a select number of random words from a pre-filled work bank for each part of speech, including punctuation, and the game is over when all words have been consumed. Replay variety is amplified through randomization and words that multitask in sentence function (e.g. as both verb and noun), despite a limited word bank. Toying with consumption (eight=ate), luck (8-ball), constraint (the 4 directions), and poetic composition (with 8 words in a grid of 16), 8-Bite is a playful poetic contraption that literally makes you eat your words. 
+
+How do you win a game of poetry? What happens when luck is a functional constraint on beauty? What does it mean to create poetry by eating your words (taking things back) in an irretractable gameplay?
+-->
+
+	<style>
+	body { margin:0 ; overflow:hidden }
+	a { color:#eee ; text-decoration:none }
+	header { margin:0 ; padding:0 ; background-color:#444 ; color:#bbb ;
+		position:relative ; z-index:1000 }
+	header > h1 { margin:0 ; font-size:12px ; font-family:sans-serif ;
+		border-bottom:1px #999 solid ; padding:5px 10px ; line-height:17px }
+</style>
+</head>
+<body>
+<header id=nav>
+	<h1>
+		<a href="index.html">Taper #8 :
+		8-Bit Nostalgia</a> : Spring 2022 <br>
+		<a href="seven_8_nine.html">"❽-bite"</a> by
+		<a href="about.html#Chang">Spencer Chang</a> & <a href="about.html#Chen">Kelsey Chen</a>, born in verses :
+		<a href="prev.html">&lt;&lt;</a> &mdash;
+		<a href="next.html">&gt;&gt;</a>
+	</h1>
+</header> <!-- All poem code goes here, and must be less than or equal to 2048 bytes (not including closing </body> and </html> tags below)-->
+<style>body{font-size:36px;background:#000;color:#fff}#h{display:flex;gap:8px}#g{display:grid;grid-template:repeat(4,1fr)/repeat(4,1fr);grid-gap:80px;text-align:center;padding:20px;border:1px #fff solid}#p{font-size:50px;color:#ff1493}h4{color:#90ee90;margin:auto 0}</style> <div style="max-width: 800px; padding: 40px"> <div id="h"> <h4><code>❽-bite</code></h4> <div style="margin-left: auto"> <p><em>use arrow keys</em></p></div></div><div id="g"></div><div id="t"></div></div><script>let e=[1,2],t=document.createElement("div"),n=`${e[0]}${e[1]}`,r='<span id="p">❽</span>';t.innerHTML=r;let d=[],l=["stones","keys","move","cadence","note","pieces","piss","shard"],s=["ate","licked","pray","sighs","sung","was","sunk"],a=["coiled","tensed","tender","retrograde","citrine","empty"],o=[",",".","|","[","]","–"],i=["","","/","/","/"],c=e=>{let t=Math.floor(Math.random()*e.length),n=e[t];return e.splice(t,1),n},m=(e,t)=>{for(let n=0;n<t;n++)i.push(c(e))};m(["a","the","some","all","no","few"],2),m(a,2),m(l,2),m(s,2),m(o,2);let u=0,f=()=>c(i),h=document.getElementById("g");for(let t=3;t>=0;t--)for(let n=3;n>=0;n--){let d=document.createElement("span");if(d.id=`${t}${n}`,e[0]===t&&e[1]===n)d.innerHTML=r;else{let e=document.createTextNode(f());d.appendChild(e)}h.appendChild(d)}document.addEventListener("keydown",l=>{switch(l.key){case"ArrowDown":if(0===e[0])return;e[0]--,t.children[0].style.transform="rotate(90deg)";break;case"ArrowUp":if(3===e[0])return;e[0]++,t.children[0].style.transform="rotate(90deg)";break;case"ArrowRight":if(0===e[1])return;e[1]--,t.children[0].style.transform="scaleX(-1)";break;case"ArrowLeft":if(3===e[1])return;e[1]++,t.children[0].style.transform="rotate(0deg)"}document.getElementById(n).innerHTML="";let s=document.getElementById(`${e[0]}${e[1]}`),a=s.innerText;if(s.innerHTML=r,n=`${e[0]}${e[1]}`,!a)return;d.push("/"===a?"<br/>":a);let o=d.join(" ");o.endsWith("<br/>")&&(o+="&nbsp;"),document.getElementById("t").innerHTML=o,13==++u&&(r+=" full!")})</script>
+</body>
+</html>
