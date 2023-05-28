@@ -12,6 +12,7 @@ body {
   padding: 20px;
   border: 1px white solid;
   margin: 30px 0;
+  position: relative;
 }
 
 #p {
@@ -99,5 +100,31 @@ a {
 
   summary::marker {
     font-size: 18px;
+  }
+}
+
+#alertBox {
+  position: absolute;
+  margin: 0 auto;
+  left: 25%;
+  top: 6px;
+  width: 50%;
+  height: 140px;
+  background-color: rgba(32, 31, 31, 0.8);
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  overflow: hidden;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  display: flex;
+  transition: height 0.8s ease;
+  box-shadow: #7c7c7c 0px 0px 10px 0px;
+  border-bottom: #7c7c7c 1px solid;
+
+  &.hidden {
+    height: 0;
   }
 }

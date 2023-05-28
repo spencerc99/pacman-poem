@@ -192,8 +192,18 @@ const handleFinishGame = () => {
   }
   hasSavedPoem = true;
   pacHtml += " full!";
-  // TODO: add message and give button to restart.
+
+  const alertBox = document.getElementById("alertBox");
+  if (alertBox) {
+    alertBox.classList.remove("hidden");
+  }
 };
+
+function playAgain() {
+  window.location.reload();
+}
+
+(document.querySelector("#playAgain") as HTMLButtonElement).onclick = playAgain;
 
 const handleMove = () => {
   console.log("handling move");
